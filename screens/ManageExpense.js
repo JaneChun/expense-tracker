@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { DUMMY_EXPENSES } from '@/components/ExpensesOutput/ExpensesOutput';
-import { useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import IconButton from '@/components/IconButton';
 import Button from '@/components/Button';
 import { GlobalStyles } from '@/constants/styles';
+import { ExpensesContext } from '@/store/expenses-context';
 
 export default function ManageExpense({ route, navigation }) {
+	const expensesCtx = useContext(ExpensesContext);
+
 	const { id } = route.params ?? {};
 	const isEditing = Boolean(id);
 
@@ -16,12 +18,25 @@ export default function ManageExpense({ route, navigation }) {
 	}, [navigation, isEditing]);
 
 	function deleteExpenseHandler() {
+		expensesCtx.deleteExpense({ id });
 		navigation.goBack();
 	}
 	function canelHandler() {
 		navigation.goBack();
 	}
 	function confirmHandler() {
+		if (isEditing) {
+			expensesCtx.updateExpense({ id, expenseData: { amount: 0 } });
+		} else {
+			expensesCtx.addExpense({
+				expenseData: {
+					description: 'Test',
+					amount: 19.99,
+					date: new Date(),
+				},
+			});
+		}
+
 		navigation.goBack();
 	}
 

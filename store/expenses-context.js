@@ -11,7 +11,7 @@ function expensesReducer(state, action) {
 	switch (action.type) {
 		case 'ADD':
 			const id = new Date().toString() + Math.random().toString();
-			const newExpense = { id, ...action.payload };
+			const newExpense = { id, ...action.payload.expenseData };
 			return [newExpense, ...state];
 
 		case 'DELETE':
@@ -34,15 +34,15 @@ function expensesReducer(state, action) {
 export default function ExpensesContextProvider({ children }) {
 	const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
 
-	function addExpense(expenseData) {
-		dispatch({ type: 'ADD', payload: expenseData });
+	function addExpense({ expenseData }) {
+		dispatch({ type: 'ADD', payload: { expenseData } });
 	}
 
-	function deleteExpense(id) {
-		dispatch({ type: 'DELETE', payload: id });
+	function deleteExpense({ id }) {
+		dispatch({ type: 'DELETE', payload: { id } });
 	}
 
-	function updateExpense(id, expenseData) {
+	function updateExpense({ id, expenseData }) {
 		dispatch({ type: 'UPDATE', payload: { id, expenseData } });
 	}
 

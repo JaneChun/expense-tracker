@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
 	sum: {
 		fontSize: 16,
 		fontWeight: 'bold',
-		color: GlobalStyles.colors.dark500,
+		color: GlobalStyles.colors.accent700,
 	},
 });
