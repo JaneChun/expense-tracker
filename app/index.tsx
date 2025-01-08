@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import ManageExpense from '../screens/ManageExpense';
 import AllExpenses from '../screens/AllExpenses';
 import RecentExpenses from '../screens/RecentExpenses';
+import IconButton from '../components/IconButton';
 
 export default function Index() {
 	const Stack = createNativeStackNavigator();
@@ -16,12 +17,22 @@ export default function Index() {
 	function ExpensesOverview() {
 		return (
 			<BottomTab.Navigator
-				screenOptions={{
+				screenOptions={({ navigation }) => ({
 					headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
 					headerTintColor: 'white',
 					tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
 					tabBarActiveTintColor: GlobalStyles.colors.accent500,
-				}}
+					headerRight: ({ tintColor }) => (
+						<IconButton
+							icon='add-circle-sharp'
+							color={tintColor}
+							size={24}
+							onPress={() => {
+								navigation.navigate('ManageExpense');
+							}}
+						/>
+					),
+				})}
 			>
 				<BottomTab.Screen
 					name='RecentExpenses'
@@ -52,7 +63,11 @@ export default function Index() {
 	return (
 		<>
 			<StatusBar style='auto' />
-			<Stack.Navigator screenOptions={{ headerShown: false }}>
+			<Stack.Navigator
+				screenOptions={{
+					headerShown: false,
+				}}
+			>
 				<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} />
 				<Stack.Screen name='ManageExpense' component={ManageExpense} />
 			</Stack.Navigator>
