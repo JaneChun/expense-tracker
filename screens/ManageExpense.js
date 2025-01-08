@@ -15,18 +15,24 @@ export default function ManageExpense({ route, navigation }) {
 		});
 	}, [navigation, isEditing]);
 
-	function deleteExpenseHandler() {}
-	function canelHandler() {}
-	function confirmHandler() {}
+	function deleteExpenseHandler() {
+		navigation.goBack();
+	}
+	function canelHandler() {
+		navigation.goBack();
+	}
+	function confirmHandler() {
+		navigation.goBack();
+	}
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.buttonsContainer}>
+				<Button onPress={confirmHandler} style={styles.button}>
+					{isEditing ? 'Confirm' : 'Add'}
+				</Button>
 				<Button mode='flat' onPress={canelHandler} style={styles.button}>
 					Cancel
-				</Button>
-				<Button onPress={confirmHandler} style={styles.button}>
-					{isEditing ? 'Update' : 'Add'}
 				</Button>
 			</View>
 

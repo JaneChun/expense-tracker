@@ -20,7 +20,7 @@ export default function ExpenseItem({ id, description, date, amount }) {
 					<Text style={styles.text}>{getFormattedDate(date)}</Text>
 				</View>
 				<View style={styles.amountContainer}>
-					<Text style={[styles.text, styles.amount]}>{amount.toFixed(2)}</Text>
+					<Text style={[styles.text, styles.amount]}>${amount.toFixed(2)}</Text>
 				</View>
 			</View>
 		</Pressable>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
 	},
 	description: {
 		fontSize: 16,
-		fontWeight: 'bold',
 		marginBottom: 4,
 	},
 	amountContainer: {
