@@ -18,9 +18,9 @@ export default function Index() {
 		return (
 			<BottomTab.Navigator
 				screenOptions={({ navigation }) => ({
-					headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+					headerStyle: { backgroundColor: GlobalStyles.colors.dark500 },
 					headerTintColor: 'white',
-					tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+					tabBarStyle: { backgroundColor: GlobalStyles.colors.dark500 },
 					tabBarActiveTintColor: GlobalStyles.colors.accent500,
 					headerRight: ({ tintColor }) => (
 						<IconButton
@@ -65,11 +65,20 @@ export default function Index() {
 			<StatusBar style='auto' />
 			<Stack.Navigator
 				screenOptions={{
-					headerShown: false,
+					headerStyle: { backgroundColor: GlobalStyles.colors.dark500 },
+					headerTintColor: 'white',
 				}}
 			>
-				<Stack.Screen name='ExpensesOverview' component={ExpensesOverview} />
-				<Stack.Screen name='ManageExpense' component={ManageExpense} />
+				<Stack.Screen
+					name='ExpensesOverview'
+					component={ExpensesOverview}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name='ManageExpense'
+					component={ManageExpense}
+					options={{ title: 'Manage Expense', presentation: 'modal' }}
+				/>
 			</Stack.Navigator>
 		</>
 	);

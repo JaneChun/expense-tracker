@@ -15,7 +15,7 @@ export default function ExpensesSummary({ period, expenses }) {
 const styles = StyleSheet.create({
 	container: {
 		padding: 8,
-		backgroundColor: GlobalStyles.colors.primary50,
+		backgroundColor: GlobalStyles.colors.pink100,
 		borderRadius: 6,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
 	},
 	period: {
 		fontSize: 12,
-		color: GlobalStyles.colors.primary400,
+		color: GlobalStyles.colors.accent700,
 	},
 	sum: {
 		fontSize: 16,
 		fontWeight: 'bold',
-		color: GlobalStyles.colors.primary500,
+		color: GlobalStyles.colors.dark500,
 	},
 });

@@ -3,10 +3,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { getFormattedDate } from '../../util/date';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ExpenseItem({ description, date, amount }) {
+export default function ExpenseItem({ id, description, date, amount }) {
 	const navigation = useNavigation();
 	function expensePressHandler() {
-		navigation.navigate('ManageExpense');
+		navigation.navigate('ManageExpense', { id });
 	}
 
 	return (
@@ -31,18 +31,18 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 12,
 		marginVertical: 8,
-		backgroundColor: GlobalStyles.colors.primary500,
+		backgroundColor: GlobalStyles.colors.dark500,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		borderRadius: 6,
 		elevation: 3,
-		shadowColor: GlobalStyles.colors.gray500,
+		shadowColor: GlobalStyles.colors.dark900,
 		shadowRadius: 4,
 		shadowOffset: { width: 1, height: 1 },
 		shadowOpacity: 0.4,
 	},
 	text: {
-		color: GlobalStyles.colors.primary50,
+		color: GlobalStyles.colors.pink50,
 	},
 	description: {
 		fontSize: 16,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 	},
 	amount: {
-		color: GlobalStyles.colors.primary500,
+		color: GlobalStyles.colors.dark500,
 		fontWeight: 'bold',
 	},
 	pressed: {

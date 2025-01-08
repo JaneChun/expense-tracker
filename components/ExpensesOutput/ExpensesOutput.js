@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 24,
-		backgroundColor: GlobalStyles.colors.primary700,
+		backgroundColor: GlobalStyles.colors.dark700,
 	},
 });
 
-const DUMMY_EXPENSES = [
+export const DUMMY_EXPENSES = [
 	{
 		id: 'e1',
 		description: 'A pair of shoes',
