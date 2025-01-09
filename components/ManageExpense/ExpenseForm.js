@@ -1,10 +1,30 @@
 import { StyleSheet, Text, View } from 'react-native';
 import Input from './Input';
+import { useState } from 'react';
+import Button from '@/components/Button';
 
-export default function ExpenseForm() {
-	function amountChangeHandler() {}
-	function dateChangeHandler() {}
-	function descriptionChangeHandler() {}
+export default function ExpenseForm({ onCancel, onSubmit, submitButtonLabel }) {
+	const [inputValues, setInputValues] = useState({
+		amount: '',
+		date: '',
+		description: '',
+	});
+
+	function inputChangeHandler(key, enteredValue) {
+		setInputValues((curInputValues) => ({
+			...curInputValues,
+			[key]: enteredValue,
+		}));
+	}
+
+	function submitHandler() {
+		const expenseData = {
+			amount: +inputValues.amount,
+			date: new Date(inputValues.date),
+			description: inputValues.description,
+		};
+		onSubmit(expenseData);
+	}
 
 	return (
 		<View style={styles.formContainer}>
@@ -15,8 +35,9 @@ export default function ExpenseForm() {
 					label='Amount'
 					textInputConfing={{
 						keyboardType: 'decimal-pad',
-						onChangeText: amountChangeHandler,
+						onChangeText: (value) => inputChangeHandler('amount', value),
 					}}
+					value={inputValues.amount}
 				/>
 				<Input
 					style={styles.rowInput}
@@ -25,8 +46,9 @@ export default function ExpenseForm() {
 						keyboardType: 'default',
 						placeholder: 'YYYY-MM-DD',
 						maxLength: 10,
-						onChangeText: dateChangeHandler,
+						onChangeText: (value) => inputChangeHandler('date', value),
 					}}
+					value={inputValues.date}
 				/>
 			</View>
 			<Input
@@ -34,9 +56,19 @@ export default function ExpenseForm() {
 				textInputConfing={{
 					keyboardType: 'default',
 					multiline: true,
-					onChangeText: descriptionChangeHandler,
+					onChangeText: (value) => inputChangeHandler('description', value),
 				}}
+				value={inputValues.description}
 			/>
+
+			<View style={styles.buttonsContainer}>
+				<Button onPress={submitHandler} style={styles.button}>
+					{submitButtonLabel}
+				</Button>
+				<Button mode='flat' onPress={onCancel} style={styles.button}>
+					Cancel
+				</Button>
+			</View>
 		</View>
 	);
 }
@@ -57,5 +89,15 @@ const styles = StyleSheet.create({
 	},
 	rowInput: {
 		flex: 1,
+	},
+	buttonsContainer: {
+		marginTop: 8,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	button: {
+		minWidth: 120,
+		marginHorizontal: 8,
 	},
 });
