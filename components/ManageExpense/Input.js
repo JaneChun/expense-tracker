@@ -1,11 +1,12 @@
 import { GlobalStyles } from '@/constants/styles';
 import { Text, View, TextInput, StyleSheet } from 'react-native';
 
-export default function Input({ label, style, textInputConfing }) {
+export default function Input({ label, style, textInputConfing, value }) {
 	return (
 		<View style={[styles.inputContainer, style]}>
 			<Text style={styles.label}>{label}</Text>
 			<TextInput
+				value={value}
 				style={[
 					styles.textInput,
 					textInputConfing.multiline && styles.multiline,

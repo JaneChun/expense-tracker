@@ -10,6 +10,7 @@ export default function ManageExpense({ route, navigation }) {
 
 	const { id } = route.params ?? {};
 	const isEditing = Boolean(id);
+	const expense = expensesCtx.expenses.find((exp) => exp.id === id);
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
@@ -41,6 +42,7 @@ export default function ManageExpense({ route, navigation }) {
 				onSubmit={confirmHandler}
 				onCancel={canelHandler}
 				submitButtonLabel={isEditing ? 'Confirm' : 'Add'}
+				defaultValues={expense}
 			/>
 
 			{isEditing && (
