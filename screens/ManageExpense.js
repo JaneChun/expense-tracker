@@ -6,9 +6,12 @@ import { GlobalStyles } from '@/constants/styles';
 import { ExpensesContext } from '@/store/expenses-context';
 import { deleteExpense, postExpense, updateExpense } from '../util/http';
 import LoadingOverlay from '@/ui/LoadingOverlay';
+import ErrorOverlay from '@/ui/ErrorOverlay';
 
 export default function ManageExpense({ route, navigation }) {
-	const [isSubmitting, setIsSubmintting] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useState(false);
+
 	const expensesCtx = useContext(ExpensesContext);
 
 	const { id } = route.params ?? {};
@@ -22,12 +25,18 @@ export default function ManageExpense({ route, navigation }) {
 	}, [navigation, isEditing]);
 
 	async function deleteExpenseHandler() {
-		setIsSubmintting(true);
-		expensesCtx.deleteExpense({ id });
-		await deleteExpense({ id });
-		setIsSubmintting(false);
+		setIsSubmitting(true);
 
-		navigation.goBack();
+		try {
+			expensesCtx.deleteExpense({ id });
+			await deleteExpense({ id });
+
+			navigation.goBack();
+		} catch (err) {
+			setError(err.message);
+
+			setIsSubmitting(false);
+		}
 	}
 
 	function canelHandler() {
@@ -35,21 +44,31 @@ export default function ManageExpense({ route, navigation }) {
 	}
 
 	async function confirmHandler(expenseData) {
-		setIsSubmintting(true);
-		if (isEditing) {
-			expensesCtx.updateExpense({ id, expenseData });
-			await updateExpense({ id, expenseData });
-		} else {
-			const id = await postExpense({ expenseData });
-			expensesCtx.addExpense({ id, expenseData });
-		}
-		setIsSubmintting(false);
+		setIsSubmitting(true);
 
-		navigation.goBack();
+		try {
+			if (isEditing) {
+				expensesCtx.updateExpense({ id, expenseData });
+				await updateExpense({ id, expenseData });
+			} else {
+				const id = await postExpense({ expenseData });
+				expensesCtx.addExpense({ id, expenseData });
+			}
+
+			navigation.goBack();
+		} catch (err) {
+			setError(err.message);
+
+			setIsSubmitting(false);
+		}
 	}
 
 	if (isSubmitting) {
 		return <LoadingOverlay />;
+	}
+
+	if (!isSubmitting && error) {
+		return <ErrorOverlay message={error} />;
 	}
 
 	return (

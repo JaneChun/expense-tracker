@@ -38,8 +38,8 @@ function expensesReducer(state, action) {
 export default function ExpensesContextProvider({ children }) {
 	const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
-	function addExpense({ expenseData }) {
-		dispatch({ type: 'ADD', payload: { expenseData } });
+	function addExpense({ id, expenseData }) {
+		dispatch({ type: 'ADD', payload: { id, expenseData } });
 	}
 
 	function deleteExpense({ id }) {
