@@ -1,15 +1,26 @@
 import { GlobalStyles } from '@/constants/styles';
 import { Text, View, TextInput, StyleSheet } from 'react-native';
+import { FontAwesome6 } from '@expo/vector-icons';
 
-export default function Input({ label, style, textInputConfing, value }) {
+export default function Input({
+	label,
+	style,
+	textInputConfing,
+	value,
+	invalid,
+}) {
 	return (
 		<View style={[styles.inputContainer, style]}>
-			<Text style={styles.label}>{label}</Text>
+			<Text style={[styles.label, invalid && styles.invalidLabel]}>
+				{label}
+				{invalid && <FontAwesome6 name='circle-exclamation' />}
+			</Text>
 			<TextInput
 				value={value}
 				style={[
 					styles.textInput,
 					textInputConfing.multiline && styles.multiline,
+					invalid && styles.invalidInput,
 				]}
 				{...textInputConfing}
 			/>
@@ -37,5 +48,9 @@ const styles = StyleSheet.create({
 	multiline: {
 		minHeight: 100,
 		textAlignVertical: 'top',
+	},
+	invalidLabel: {},
+	invalidInput: {
+		backgroundColor: GlobalStyles.colors.error50,
 	},
 });
