@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useContext, useLayoutEffect } from 'react';
 import IconButton from '@/components/IconButton';
 import Button from '@/components/Button';
+import ExpenseForm from '@/components/ManageExpense/ExpenseForm';
 import { GlobalStyles } from '@/constants/styles';
 import { ExpensesContext } from '@/store/expenses-context';
 
@@ -42,6 +43,7 @@ export default function ManageExpense({ route, navigation }) {
 
 	return (
 		<View style={styles.container}>
+			<ExpenseForm />
 			<View style={styles.buttonsContainer}>
 				<Button onPress={confirmHandler} style={styles.button}>
 					{isEditing ? 'Confirm' : 'Add'}
@@ -50,7 +52,6 @@ export default function ManageExpense({ route, navigation }) {
 					Cancel
 				</Button>
 			</View>
-
 			{isEditing && (
 				<View style={styles.deleteContainer}>
 					<IconButton
