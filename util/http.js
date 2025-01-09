@@ -23,3 +23,11 @@ export const getExpenses = async () => {
 	}
 	return expenses;
 };
+
+export const updateExpense = ({ id, expenseData }) => {
+	return axios.put(`${URL}/expenses/${id}.json`, expenseData);
+};
+
+export const deleteExpense = ({ id }) => {
+	return axios.delete(`${URL}/expenses/${id}.json`);
+};
