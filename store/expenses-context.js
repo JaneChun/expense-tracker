@@ -5,13 +5,15 @@ export const ExpensesContext = createContext({
 	addExpense: () => {},
 	deleteExpense: () => {},
 	updateExpense: () => {},
+	setExpenses: () => {},
 });
 
 function expensesReducer(state, action) {
 	switch (action.type) {
 		case 'ADD':
-			const id = new Date().toString() + Math.random().toString();
-			const newExpense = { id, ...action.payload.expenseData };
+			const { id, expenseData } = action.payload;
+
+			const newExpense = { id, ...expenseData };
 			return [newExpense, ...state];
 
 		case 'DELETE':
@@ -26,13 +28,15 @@ function expensesReducer(state, action) {
 			newState[index] = updatedExpense;
 			return newState;
 
+		case 'SET':
+			return action.payload;
 		default:
 			return state;
 	}
 }
 
 export default function ExpensesContextProvider({ children }) {
-	const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+	const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
 	function addExpense({ expenseData }) {
 		dispatch({ type: 'ADD', payload: { expenseData } });
@@ -46,11 +50,17 @@ export default function ExpensesContextProvider({ children }) {
 		dispatch({ type: 'UPDATE', payload: { id, expenseData } });
 	}
 
+	function setExpenses(expenses) {
+		expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+		dispatch({ type: 'SET', payload: expenses });
+	}
+
 	const value = {
 		expenses: expensesState,
 		addExpense,
 		deleteExpense,
 		updateExpense,
+		setExpenses,
 	};
 
 	return (
@@ -59,36 +69,3 @@ export default function ExpensesContextProvider({ children }) {
 		</ExpensesContext.Provider>
 	);
 }
-
-const DUMMY_EXPENSES = [
-	{
-		id: 'e1',
-		description: 'A pair of shoes',
-		amount: 59.99,
-		date: new Date('2024-01-01'),
-	},
-	{
-		id: 'e2',
-		description: 'A pair of trousers',
-		amount: 89.29,
-		date: new Date('2024-01-03'),
-	},
-	{
-		id: 'e3',
-		description: 'Some bananas',
-		amount: 5.99,
-		date: new Date('2024-01-05'),
-	},
-	{
-		id: 'e4',
-		description: 'A book',
-		amount: 14.99,
-		date: new Date('2024-01-9'),
-	},
-	{
-		id: 'e5',
-		description: 'Another book',
-		amount: 18.99,
-		date: new Date('2024-01-12'),
-	},
-];
